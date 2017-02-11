@@ -19,8 +19,4 @@ eventsEmitter.on('janitha', function(){
   console.log('Janitha is now ONLINE');
 });
 
-eventsEmitter.on('newListener', function(){
-  console.log("New Listner Added");
-})
-
 eventsEmitter.emit('connection');
