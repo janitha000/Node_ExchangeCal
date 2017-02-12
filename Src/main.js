@@ -1,24 +1,37 @@
 var express = require('express');
 var app = express();
-app.use(express.static('public'));
+var fs = require('fs');
 
-app.get('/index.html', function(req,res){
-  res.sendFile(__dirname + "/express/" + "index.html");
-});
+var user = {
+   "user4" : {
+      "name" : "Lahiru",
+      "password" : "password4",
+      "profession" : "teacher",
+      "id": 4
+   }
+}
 
-app.get('/process_getRequest', function(req,res){
-  console.log("Recieved request for process_getRequest");
-  response = {
-    first_name:req.query.first_name,
-    last_name:req.query.last_name
-    };
-    console.log(response);
-    res.send(JSON.stringify(response));
+
+app.get('/users', function(req,res){
+  fs.readFile(__dirname + "/express/users.json", 'utf8', function(err,data){
+    console.log(__dirname + "/express/users.json");
+    console.log(data);
+    res.end(data);
+  });
+})
+
+app.post('/users', function(req,res){
+  fs.readFile(__dirname + "/express/users.json", 'utf8', function(err,data){
+    data = JSON.parse(data);
+    data["user4"] = user["user4"];
+    console.log(data);
+    res.end(JSON.stringify(data));
+  });
 })
 
 var server = app.listen(8081, function(){
-  var host = server.address().address;
-  var port = server.address().port;
+  var host = server.address().address
+  var port = server.address().port
 
-  console.log("Sever listening on %s:%s", host,port);
+  console.log("Example app listening at http://%s:%s", host, port)
 })
